@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather widget</title>
-  </head>
-  <body>
-    <div class="app">
-      
-    </div>
-    <script type="module" src="/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather widget</title>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <h1 class="date">Date</h1>
+      <small class="day">Day</small>
+    </header>
+    <main>
+      <strong>
+        <div class="temp-comp">
+          <div><span class="big-number">30</span><sup>°c</sup></div>
+          <p class="feels-like">feels like <span id="fl">69</span>°C</p>
+        </div>
+      </strong>
+      <img src="" alt="weather icon" class="icon">
+    </main>
+    <p class="name">Name, CZ</p>
+    <section class="wind-section">
+      <ul>
+        <li>Wind speed: <span class="wind-speed"></span></li>
+        <li>Gusts speed: <span class="gusts-speed"></span></li>
+      </ul>
+      <svg version="1.1" viewBox="100 140 500 250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="arrow">
+         <path d="m575.45 251.36h-437.32l62.152-62.152c3.2812-3.2773 3.2812-8.5977 0-11.879s-8.5977-3.2812-11.879 0l-75.578 75.582c-2.1523 1.5195-3.5664 4.0156-3.5664 6.8516 0 0.042969 0.011719 0.082032 0.011719 0.125 0 0.09375 0.023438 0.17969 0.027344 0.26953 0.039063 0.82031 0.19922 1.6055 0.45703 2.3477 0.15234 0.47266 0.37109 0.89844 0.60547 1.3398 0.21094 0.37891 0.44922 0.73438 0.71484 1.0742 0.23828 0.31641 0.35938 0.68359 0.64453 0.97266l77.238 77.238c1.6406 1.6406 3.7891 2.4609 5.9375 2.4609 2.1484 0 4.2969-0.82031 5.9375-2.4609 3.2812-3.2812 3.2812-8.5977 0-11.879l-63.086-63.09h437.71c4.6367 0 8.3984-3.7617 8.3984-8.3984 0-4.6406-3.7617-8.4023-8.4023-8.4023z"/>
+      </svg>
+    </section>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
 </html>

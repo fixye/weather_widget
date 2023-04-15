@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
 :root {
-    --text: #FF2E63;
-    --background: #EAEAEA;
-    --highlight: #F9D949;
-    --alternateText: #08D9D6;
-    --appBackground: #252A34;
+    --text: #6c6b6b;
+    --background: #eaeaea;
+    --highlight: #f9d949;
+    --alternateText: #08d9d6;
+    --appBackground: #252a34;
 }
 
 * {
@@ -13,3 +13,111 @@
     box-sizing: border-box;
 }
 
+/* Element selectors */
+
+img {
+    display: block;
+}
+
+small {
+    color: #6c6b6b;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    font-size: 1.75rem;
+    color: black;
+    margin-bottom: 2em;
+}
+
+main {
+    padding: 0 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5rem;
+}
+
+sup {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+li {
+    color: var(--text);
+    width: 200px;
+}
+
+.app {
+    padding: 2em;
+    height: 800px;
+    width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Class Selectors */
+
+.big-number {
+    font-size: 5rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.temp-comp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.feels-like {
+    margin-right: 1rem;
+    font-size: smaller;
+    font-weight: 400;
+    color: var(--text);
+}
+
+.util {
+    border: 1px dotted red;
+}
+
+.name {
+    color: var(--text);
+    margin-bottom: 3rem;
+}
+
+.wind-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.arrow {
+    transform-origin: 50% 50%;
+    transform: rotate(90deg) scale(0.4);
+}
+
+.icon {
+    transform: scale(1.5);
+}
