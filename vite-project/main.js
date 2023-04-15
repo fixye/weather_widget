@@ -1,24 +1,35 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import "./style.css";
+import key from "./key";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const url = `https://api.openweathermap.org/data/2.5/weather?lat=50.1424&lon=15.1188&appid=${key}`;
+const iconUrl = `https://openweathermap.org/img/wn/{icon}@2x.png`
+const zeroK = 273.15;
 
-setupCounter(document.querySelector('#counter'))
+async function getWeatherData(url) {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+
+getWeatherData(url).then((data) => {
+    const { name } = data;
+    const {
+        main: { temp: actualTemp },
+        main: { feels_like: feelsLikeTemp },
+    } = data;
+    const {
+        wind: { speed: windSpeed, deg: windDeg, gust: windGust },
+    } = data;
+    const {
+        sys: { sunrise: sunrise, sunset: sunset },
+    } = data;
+    const { weather: [{ icon: currentWeatherIcon }] } = data
+    const currentWeather = data.weather[0].main;
+    const actualTempCelc = (actualTemp - zeroK).toFixed(0);
+    const feelsLikeTempCelc = (feelsLikeTemp - zeroK).toFixed(0)
+
+});
+
+function feedComponent(element, data) {
+    element.textContent = data;
+}
