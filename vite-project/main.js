@@ -1,7 +1,8 @@
 import "./style.css";
-import key from "./key";
+import key from "./key.js";
+import { View } from "./View.js";
 
-const url = `https://api.openweathermap.org/data/2.5/weather?lat=50.1424&lon=15.1188&appid=${key}`;
+const urlDefault = `https://api.openweathermap.org/data/2.5/weather?lat=50.1424&lon=15.1188&appid=${key}`;
 const iconUrl = `https://openweathermap.org/img/wn/{icon}@2x.png`;
 const zeroK = 273.15;
 const months = [
@@ -30,8 +31,8 @@ const days = [
 let debounce = null;
 const searchBar = document.querySelector(".search-bar");
 const suggestionsList = document.querySelector(".suggestions");
-
 const date = new Date();
+const view = new View();
 
 async function getWeatherData(url) {
     const response = await fetch(url);
@@ -39,11 +40,14 @@ async function getWeatherData(url) {
     return data;
 }
 
-getWeatherData(url).then((data) => {
+getWeatherData(urlDefault).then((data) => {
     content(data);
 });
 
+
+// Feeding elements in the component from the API data
 function content(data) {
+    // JSON object destructuring
     const { name } = data;
     const {
         main: { temp: actualTemp },
@@ -61,37 +65,44 @@ function content(data) {
     const currentWeather = data.weather[0].main;
     const actualTempCelc = (actualTemp - zeroK).toFixed(0);
     const feelsLikeTempCelc = (feelsLikeTemp - zeroK).toFixed(0);
-    feedContent(
-        document.querySelector(".date"),
-        `${months[date.getMonth()]} ${date.getDate()}`
-    );
-    feedContent(document.querySelector(".day"), days[date.getDay()]);
-    feedContent(document.querySelector(".big-number"), `${actualTempCelc}`);
-    feedContent(document.querySelector("#fl"), `${feelsLikeTempCelc}`);
-    document.querySelector(
-        ".icon"
-    ).src = `https://openweathermap.org/img/wn/${currentWeatherIcon}@2x.png`;
-    feedContent(document.querySelector(".name"), `${name} CZ`);
-    document.querySelector(".arrow").style.cssText = `
+
+    view.date.innerHTML = `${months[date.getMonth()]} ${date.getDate()}`;
+    view.day.innerHTML = days[date.getDay()];
+    view.actualTemp.innerHTML = `${actualTempCelc}`;
+    view.feelsLike.innerHTML = `${feelsLikeTempCelc}`;
+    view.icon.src = `https://openweathermap.org/img/wn/${currentWeatherIcon}@2x.png`;
+    view.name.innerHTML = `${name} ${data.sys.country}`;
+    view.arrow.style.cssText = `
         transform-origin: 50% 50%;
         transform: rotate(${90 + windDeg}deg) scale(.4);
     }
     `;
-    feedContent(document.querySelector(".wind-speed"), `${windSpeed} m/s`);
-    feedContent(document.querySelector(".gusts-speed"), `${windGusts} m/s`);
+    view.windSpeed.innerHTML = `${windSpeed} m/s`;
+    view.gustsSpeed.innerHTML = `${windGusts} m/s`;
 }
 
-function feedContent(element, content) {
-    element.textContent = content;
-}
+// Event listener to close suggestions when clicked anywhere else
+// in the document
+document.addEventListener('click', function(e) {
+    if (!(e.target.classList.contains('search-bar'))) 
+        view.suggestionsList.innerHTML = ''
+})
+
 
 searchBar.addEventListener("input", function () {
-    const value = searchBar.value;
-    if (value) querySearch(value);
+    querySearch(view.searchBar.value);
 });
 
+// Function that handles search bar event listener
+// Call api with a query and returns list items which
+// are fed to the suggestions unordered list
 function querySearch(value) {
     clearTimeout(debounce);
+
+    if(!value){
+        suggestionsList.innerHTML = ''
+        return
+    }
 
     debounce = setTimeout(() => {
         fetch(
@@ -107,11 +118,12 @@ function querySearch(value) {
                 console.log(error.message);
             })
             .then((data) => {
-                if (data.list) {
+                if (data && data.list) {
                     suggestionsList.innerHTML = "";
                     data.list.forEach((item, event) => {
                         const li = document.createElement("li");
                         li.textContent = `${item.name}, ${item.sys.country}`;
+                        li.classList.add('query-item')
                         suggestionsList.appendChild(li);
 
                         li.addEventListener("click", async () => {
@@ -127,14 +139,29 @@ function querySearch(value) {
                             }
                         });
                     });
-                    updateListHeight(data.list.length);
+                    updateListHeight(data.count);
                 } else {
+                    view.suggestionsList.style.display = 'none'
                     return;
                 }
-            });
+            })
+            .then((data) => {
+                if(data && data.errorMessage) {
+                    console.log('third then')
+                    throw new Error (data.errorMessage)
+                }
+                return data
+            })
+            .catch((error) => {
+                console.log('catch block')
+                console.log(error.message);
+            })
     }, 500);
 }
 
+// Function that calculates the number of suggestions
+// and adjusts the height of the list.
+// (also adds scrollbar when suggestions return more then 10 items)
 function updateListHeight(suggestions) {
     const liHeight = 25;
     const maxSuggestions = 10;
@@ -148,5 +175,3 @@ function updateListHeight(suggestions) {
         suggestionsList.style.overflowY = "auto";
     }
 }
-
-updateListHeight(5);
