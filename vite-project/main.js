@@ -90,7 +90,8 @@ document.addEventListener('click', function(e) {
 
 
 searchBar.addEventListener("input", function () {
-    querySearch(view.searchBar.value);
+    if (view.searchBar.value.length > 2)
+        querySearch(view.searchBar.value);
 });
 
 // Function that handles search bar event listener
