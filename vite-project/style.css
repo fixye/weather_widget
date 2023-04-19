@@ -117,6 +117,7 @@ li {
 .arrow {
     transform-origin: 50% 50%;
     transform: rotate(90deg) scale(0.4);
+    transition: all 1s;
 }
 
 .icon {

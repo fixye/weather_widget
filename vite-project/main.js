@@ -2,6 +2,7 @@ import "./style.css";
 import key from "./key.js";
 import { View } from "./View.js";
 
+
 const urlDefault = `https://api.openweathermap.org/data/2.5/weather?lat=50.1424&lon=15.1188&appid=${key}`;
 const iconUrl = `https://openweathermap.org/img/wn/{icon}@2x.png`;
 const zeroK = 273.15;
@@ -95,7 +96,7 @@ searchBar.addEventListener("input", function () {
 });
 
 // Function that handles search bar event listener
-// Call api with a query and returns list items which
+// Calls api with a query and returns list items which
 // are fed to the suggestions unordered list
 function querySearch(value) {
     clearTimeout(debounce);
