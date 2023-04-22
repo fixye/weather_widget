@@ -48,7 +48,7 @@ getWeatherData(urlDefault).then((data) => {
 
 // Feeding elements in the component from the API data
 function content(data) {
-    // JSON object destructuring
+    // recieving JSON destructuring
     const { name } = data;
     const {
         main: { temp: actualTemp },
@@ -63,7 +63,7 @@ function content(data) {
     const {
         weather: [{ icon: currentWeatherIcon }],
     } = data;
-    const currentWeather = data.weather[0].main;
+    // const currentWeather = data.weather[0].main;
     const actualTempCelc = (actualTemp - zeroK).toFixed(0);
     const feelsLikeTempCelc = (feelsLikeTemp - zeroK).toFixed(0);
 
@@ -79,7 +79,7 @@ function content(data) {
     }
     `;
     view.windSpeed.innerHTML = `${windSpeed} m/s`;
-    view.gustsSpeed.innerHTML = `${windGusts} m/s`;
+    windGusts ? view.gustsSpeed.innerHTML = `${windGusts} m/s` : view.gustsSpeed.innerHTML = `No data`
 }
 
 // Event listener to close suggestions when clicked anywhere else
@@ -95,7 +95,7 @@ searchBar.addEventListener("input", function () {
         querySearch(view.searchBar.value);
 });
 
-// Function that handles search bar event listener
+// Function handles search bar event listener
 // Calls api with a query and returns list items which
 // are fed to the suggestions unordered list
 function querySearch(value) {
@@ -161,7 +161,7 @@ function querySearch(value) {
     }, 500);
 }
 
-// Function that calculates the number of suggestions
+// Function calculates the number of suggestions
 // and adjusts the height of the list.
 // (also adds scrollbar when suggestions return more then 10 items)
 function updateListHeight(suggestions) {
